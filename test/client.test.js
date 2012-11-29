@@ -19,13 +19,6 @@ specify("external api", function(assert) {
   var client = lighthouse.createClient();
   assert.ok(client, "Should exist");
   assert.deepEqual(client.defaults, {}, "Should be defaulted to {}");
-
-  [
-    "listProjects"
-  ].forEach(function(value) {
-    assert.equal(typeof client[value], "function", "Should have " + value + " function");
-  });
-
 });
 
 specify("listProjects", function(assert) {
