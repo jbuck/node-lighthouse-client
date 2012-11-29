@@ -81,4 +81,35 @@ specify("listProjects", function(assert) {
   });
 });
 
+specify("getProject", function(assert) {
+  var client = require("../index").createClient(mock);
+
+  client.getProject(function(err, data) {
+    assert.equal(err, "You did not specify a Lighthouse project", "Must specify project");
+    assert.equal(data, undefined, "Data should not be returned");
+  });
+
+  var scope = nock("https://" + mock.account + ".lighthouseapp.com")
+    .matchHeader("X-LighthouseToken", mock.token)
+    .get("/projects/102935.json")
+    .replyWithFile(200, __dirname + "/replies/getProject-one.json")
+    .get("/projects/10293.json")
+    .reply(404);
+
+  client.getProject({
+    project: "102935"
+  }, function(err, data) {
+    assert.equal(err, undefined, "Error returned");
+    assert.ok(data, "Data be returned");
+    assert.equal(typeof data, "object", "Data wasn't an object");
+  });
+
+  client.getProject({
+    project: "10293"
+  }, function(err, data) {
+    assert.equal(err, undefined, "Error returned");
+    assert.equal(data, undefined, "Data returned");
+  });
+});
+
 specify.run();
