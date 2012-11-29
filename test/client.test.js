@@ -31,36 +31,10 @@ specify("external api", function(assert) {
 specify("listProjects", function(assert) {
   var client = require("../index").createClient();
 
-  client.listProjects(function(err, data) {
-    assert.equal(err, "You did not specify a Lighthouse account", "Must specify account");
-    assert.equal(data, undefined, "No data returned");
-  });
-
-  client.listProjects({
-    account: fake.account
-  }, function(err, data) {
-    assert.equal(err, "You did not specify a Lighthouse token", "Must specify token");
-    assert.equal(data, undefined, "No data returned");
-  });
-
-  var invalidToken = nock("https://" + mock.account + ".lighthouseapp.com")
-    .matchHeader("X-LighthouseToken", fake.token)
-    .get("/projects.json")
-    .replyWithFile(401, __dirname + "/replies/listProjects-invalidToken.txt");
-
-  client.listProjects({
-    account: mock.account,
-    token: fake.token
-  }, function(err, data) {
-    assert.equal(err, "Couldn't authenticate you: Invalid API Token for this project.", "Invalid token error");
-    assert.equal(data, undefined, "Data returned");
-    assert.ok(invalidToken.isDone(), "Mock didn't run");
-  });
-
   var none = nock("https://" + mock.account + ".lighthouseapp.com")
     .matchHeader("X-LighthouseToken", mock.token)
     .get("/projects.json")
-    .replyWithFile(200, __dirname + "/replies/listProjects-none.json");
+    .reply(200, {"nil_classes":[]});
 
   client.listProjects(mock, function(err, data) {
     assert.equal(err, undefined, "Error returned");
