@@ -1,0 +1,27 @@
+{
+  "name": "node-lighthouse-client",
+  "version": "0.0.1",
+  "description": "A NodeJS client for Lighthouse http://lighthouseapp.com ",
+  "main": "index.js",
+  "dependencies": {
+    "node.extend": "~1.0.0",
+    "request": "~2.12.0"
+  },
+  "devDependencies": {
+    "nock": "~0.14.0",
+    "specify": "~1.1.0"
+  },
+  "scripts": {
+    "test": "node test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jbuck/node-lighthouse-client.git"
+  },
+  "keywords": [
+    "lighthouse",
+    "lighthouseapp"
+  ],
+  "author": "Jon Buckley <jon@jbuckley.ca>",
+  "license": "BSD"
+}
