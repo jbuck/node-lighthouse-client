@@ -1,5 +1,5 @@
 {
-  "name": "node-lighthouse-client",
+  "name": "lighthouse-client",
   "version": "0.0.1",
   "description": "A NodeJS client for Lighthouse http://lighthouseapp.com ",
   "main": "index.js",
