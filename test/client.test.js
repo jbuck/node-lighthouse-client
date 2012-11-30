@@ -79,4 +79,21 @@ specify("getProject", function(assert) {
   });
 });
 
+specify("getProjectUsers", function(assert) {
+  var client = require("../index").createClient(mock);
+
+  var scope = nock("https://" + mock.account + ".lighthouseapp.com")
+    .matchHeader("X-LighthouseToken", mock.token)
+    .get("/projects/102935/memberships.json")
+    .replyWithFile(200, __dirname + "/replies/getProjectUsers-one.json")
+
+  client.getProjectUsers({
+    project: "102935"
+  }, function(err, data) {
+    assert.equal(err, undefined, "Error returned");
+    assert.ok(Array.isArray(data), "Data isn't an array");
+    assert.equal(data.length, 1, "Should be one user in array");
+  });
+});
+
 specify.run();
