@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "nock": "~0.14.0",
-    "specify": "~1.1.0"
+    "specify": "~1.1.2"
   },
   "scripts": {
     "test": "node test/*.test.js"
