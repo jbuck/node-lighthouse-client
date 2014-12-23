@@ -1,7 +1,5 @@
-var client = require("./lib/client");
 
 module.exports = {
-  createClient: function(defaults) {
-    return client(defaults);
-  }
+  Client: require('src/Client.js'),
+  ClientMock: require('src/ClientMock.js')
 };
