@@ -13,7 +13,7 @@ Configure an instance of the client with some default options:
     var Client = require("lighthouse-client").Client;
     // https://myaccount.lighthouseapp.com
     // http://help.lighthouseapp.com/kb/api/how-do-i-get-an-api-token
-    var c = new Client("myaccount",  "mytoken");
+    var c = new Client("myaccount", "mytoken");
 
 Do something cool with it, like list the projects on your account:
 
