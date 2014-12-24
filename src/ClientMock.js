@@ -1,7 +1,7 @@
 'use strict';
 var _ = require('lodash');
 var fs = require('fs');
-var path = require('path');
+var nodePath = require('path');
 var Promise = require('bluebird').Promise;
 /**
  * @class ClientMock
@@ -13,8 +13,13 @@ function ClientMock(directory) {
 }
 _.extend(ClientMock.prototype, /* @lends ClientMock */ {
 
-    get: function (filepath) {
-        var fullpath = path.join(this._directory, filepath + '.json');
+    /**
+     * Simulate a GET request.
+     *
+     * @param {String} path
+     */
+    get: function (path) {
+        var fullpath = nodePath.join(this._directory, path + '.json');
         return (new Promise(function (resolve, reject) {
             fs.readFile(fullpath, 'utf-8', function (err, file) {
                 if (err) {

@@ -13,24 +13,23 @@ var Promise = require('bluebird').Promise;
  *   {username: "my-username", password: "my-password"}
  */
 function Client(account, auth) {
-  this.account = account;
-  if (typeof auth === 'string') {
-      this.token = auth;
-  } else {
-      auth = auth || {};
-      this.token = auth.token;
-      this.username = auth.username;
-      this.password = auth.password;
-  }
+    this.account = account;
+    if (typeof auth === 'string') {
+        this.token = auth;
+    } else {
+        auth = auth || {};
+        this.token = auth.token;
+        this.username = auth.username;
+        this.password = auth.password;
+    }
 }
 
 _.extend(Client.prototype, /* @lends Client */ {
-
     /**
      * Perform a GET request.
      *
      * @param {String} path
-     * @param {Object|String} parameters
+     * @param {Object|String} [parameters]
      * @returns {Promise}
      */
     get: function (path, parameters) {
@@ -41,7 +40,7 @@ _.extend(Client.prototype, /* @lends Client */ {
     /**
      * Perform request and cleanup response.
      *
-     * @param {Object} CURLOPT_*
+     * @param {Object} options Curl options CURLOPT_*
      * @returns {Promise}
      */
     _api: function (options) {
@@ -68,8 +67,8 @@ _.extend(Client.prototype, /* @lends Client */ {
                 reject(err);
             });
             curl.on('end', function () {
-                curl.close();
                 try {
+                    curl.close();
                     var data = JSON.parse(bodyText);
                     var wrapper = Object.keys(data)[0];
                     data = data[wrapper]; // unwrap root container
@@ -81,14 +80,13 @@ _.extend(Client.prototype, /* @lends Client */ {
                         return;
                     }
                     resolve(data);
-                } catch(err) {
+                } catch (err) {
                     reject(err);
                 }
             });
             curl.perform();
         });
     },
-
     /**
      * Build url.
      *

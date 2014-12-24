@@ -7,17 +7,22 @@
     "default_ticket_text": null,
     "description": "A project for testing node-lighthouse-client.",
     "description_html": "<div><p>A project for testing node-lighthouse-client.</p></div>",
+    "enable_points": false,
     "hidden": false,
     "id": 102935,
     "license": "bsd",
     "name": "Node",
     "open_states": "new/f17  # You can add comments here\nopen/aaa # if you want to.",
-    "open_tickets_count": 0,
+    "open_tickets_count": 2,
     "oss_readonly": false,
     "permalink": "node",
+    "points_scale": null,
     "public": true,
     "send_changesets_to_events": true,
-    "updated_at": "2012-11-29T19:15:14Z",
+    "todos_completed": {
+        "tickets": true
+    },
+    "updated_at": "2013-01-23T21:25:40Z",
     "open_states_list": "new,open",
     "closed_states_list": "resolved,hold,invalid"
 }
