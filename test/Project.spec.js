@@ -3,7 +3,8 @@ var assert = require('assert');
 var account = require('./helpers/account');
 var Ticket = require('../src/Ticket');
 var User = require('../src/User');
-var Milestone = require('../src/Milestone');
+var TicketBin = require('../src/TicketBin');
+var Membership = require('../src/Membership');
 
 describe('Project', function () {
     var project = null;
@@ -26,6 +27,7 @@ describe('Project', function () {
 
     it('should list memberships', function (done) {
         project.getMemberships().then(function (memberships) {
+            assert.ok(memberships[0] instanceof Membership);
             assert.equal(memberships[0].id, 260860, 'id of the membership relation');
             assert(memberships[0].user instanceof User);
             assert.equal(memberships[0].user.id, 133445, 'id of the user');
@@ -49,6 +51,7 @@ describe('Project', function () {
     });
     it('should list ticket bins', function (done) {
         project.getTicketBins().then(function (bins) {
+            assert(bins[0] instanceof TicketBin);
             assert.equal(bins[0].name, "Open tickets");
             assert.equal(bins[0].query, "state:open");
             done();

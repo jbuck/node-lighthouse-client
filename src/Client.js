@@ -6,6 +6,11 @@ var Promise = require('bluebird').Promise;
 
 /**
  * @class Client
+ * Low-level client for making requests to the lighthouseapp API.
+ */
+
+/**
+ * @constructor
  * @param {String} account
  * @param {Object|String} [auth] For example:
  *   "my-token"  http://help.lighthouseapp.com/kb/api/how-do-i-get-an-api-token
@@ -40,6 +45,7 @@ _.extend(Client.prototype, /* @lends Client */ {
     /**
      * Perform request and cleanup response.
      *
+     * @private
      * @param {Object} options Curl options CURLOPT_*
      * @returns {Promise}
      */
@@ -90,6 +96,7 @@ _.extend(Client.prototype, /* @lends Client */ {
     /**
      * Build url.
      *
+     * @private
      * @param {String} path
      * @param {Object|String} parameters
      * @returns {String}

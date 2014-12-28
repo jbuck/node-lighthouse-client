@@ -5,7 +5,11 @@ var nodePath = require('path');
 var Promise = require('bluebird').Promise;
 /**
  * @class ClientMock
- * Respond with matching files in the directory
+ * Similar api as the Client class, but responds with json files from a local directory.
+ */
+
+/**
+ * @constructor
  * @param {String} directory
  */
 function ClientMock(directory) {

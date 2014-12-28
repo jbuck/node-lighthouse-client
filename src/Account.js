@@ -9,9 +9,16 @@ var User = require('./User');
 /**
  * @class Account
  * @extends Resource
- *
+ * Object oriënted interface for working with the lighthouseapp API.
+ */
+
+/**
+ * @constructor
  * @param {Client|ClientMock|String} clientOrAccount A Client object or account string
- * @param {Object|String} [auth] Authentication for using acount (string) see Client:constructor for autentication options.
+ * @param {Object|String} [auth] Authentication for when clientOrAccount is an acount/string
+ *   "my-token"  http://help.lighthouseapp.com/kb/api/how-do-i-get-an-api-token
+ *   {token: "my-token"}
+ *   {username: "my-username", password: "my-p@ssw0rd"}
  */
 function Account(clientOrAccount, auth) {
     if (_.isObject(clientOrAccount)) {
@@ -26,13 +33,15 @@ function Account(clientOrAccount, auth) {
 util.inherits(Account, Resource);
 _.extend(Account.prototype, /* @lends Account */ {
     /**
-     * Retrieve a list of all projects
+     * Retrieve a list of all projects.
+     *
      * @return {Promise|Project[]} projects
      */
     getProjects: function () {
         return this._getCollection('projects', Project);
     },
     /**
+     * @private
      * Alias of getProjects()
      */
     allProjects: function () {
@@ -40,6 +49,8 @@ _.extend(Account.prototype, /* @lends Account */ {
     },
     /**
      * Retrieve a project by id.
+     *
+     * @param {Number} id
      * @return {Promise|Project} project
      */
     getProject: function (id) {
@@ -47,16 +58,15 @@ _.extend(Account.prototype, /* @lends Account */ {
     },
     /**
      * Retrieve the current user.
+     *
      * @return {Promise|User}
      */
     getProfile: function () {
-        return this._getItem('profile', User).then(function (user) {
-            user._url = 'users/' + user.id;
-            return user;
-        });
+        return this._getItem('profile', User);
     },
     /**
      * Retrieve details on the given token.
+     *
      * @param {String} token
      * @return {Promise|Resource} token
      */

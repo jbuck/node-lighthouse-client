@@ -5,7 +5,10 @@ var Promise = require('bluebird').Promise;
 /**
  * @class Resource
  * Abstract baseclass for the resources.
- *
+ */
+
+/**
+ * @constructor
  * @param {Object} data
  * @param {Client} client
  * @param {String} url

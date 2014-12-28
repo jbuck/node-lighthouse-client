@@ -3,7 +3,7 @@ var util = require('util');
 var Resource = require('./Resource');
 
 /**
- * @class Milestone
+ * @class Message
  * @extends Resource
  */
 
@@ -13,9 +13,10 @@ var Resource = require('./Resource');
  * @param {Client} client
  * @param {string} url
  */
-function Milestone(data, client, url) {
+function Message(data, client, url) {
     Resource.call(this, data, client, url);
-    this._wrapper = 'milestone';
+    this._wrapper = 'message';
 }
-util.inherits(Milestone, Resource);
-module.exports = Milestone;
+
+util.inherits(Message, Resource);
+module.exports = Message;
