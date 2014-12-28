@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var util = require(&#39;util&#39;);
+var Resource = require(&#39;./Resource&#39;);
+var User = require(&#39;./User&#39;);
+
+<span id='Membership'>/**
+</span> * @class Membership
+ * @extends Resource
+ */
+
+<span id='Membership-method-constructor'><span id='Membership'>/**
+</span></span> * @constructor
+ * @param {Object} data
+ * @param {Client} client
+ * @param {string} url
+ */
+function Membership(data, client, url) {
+    Resource.call(this, data, client, url);
+    this._wrapper = &#39;membership&#39;;
+    if (this.user &amp;&amp; !(this.user instanceof User)) {
+        this.user = new User(this.user, client);
+    }
+}
+<span id='Membership-property-id'>/** @property {Number} id */
+</span><span id='Membership-property-user_id'>/** @property {Number} user_id */
+</span><span id='Membership-property-user'>/** @property {Object} user */
+</span><span id='Membership-property-account'>/** @property {String} account */
+</span>
+util.inherits(Membership, Resource);
+module.exports = Membership;
+</pre>
+</body>
+</html>

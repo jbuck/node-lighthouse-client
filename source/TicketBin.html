@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var util = require(&#39;util&#39;);
+var Resource = require(&#39;./Resource&#39;);
+
+<span id='TicketBin'>/**
+</span> * @class TicketBin
+ * @extends Resource
+ */
+
+<span id='TicketBin-method-constructor'><span id='TicketBin'>/**
+</span></span> * @constructor
+ * @param {Object} data
+ * @param {Client} client
+ * @param {string} url
+ */
+function TicketBin(data, client, url) {
+    Resource.call(this, data, client, url);
+    this._wrapper = &#39;ticket_bin&#39;;
+}
+<span id='TicketBin-property-default'>/** @property default */
+</span><span id='TicketBin-property-id'>/** @property {Number} id */
+</span><span id='TicketBin-property-name'>/** @property {String} name */
+</span><span id='TicketBin-property-position'>/** @property {Number} position */
+</span><span id='TicketBin-property-project_id'>/** @property {Number} project_id */
+</span><span id='TicketBin-property-query'>/** @property {String} query */
+</span><span id='TicketBin-property-shared'>/** @property {Boolean} shared */
+</span><span id='TicketBin-property-tickets_count'>/** @property {Number} tickets_count */
+</span><span id='TicketBin-property-updated_at'>/** @property {String} updated_at */
+</span><span id='TicketBin-property-user_id'>/** @property {Number} user_id */
+</span><span id='TicketBin-property-global'>/** @property {Boolean} global */
+</span>
+util.inherits(TicketBin, Resource);
+module.exports = TicketBin;</pre>
+</body>
+</html>

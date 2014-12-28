@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var util = require(&#39;util&#39;);
+var _ = require(&#39;lodash&#39;);
+var Resource = require(&#39;./Resource&#39;);
+var Ticket = require(&#39;./Ticket&#39;);
+var TicketBin = require(&#39;./TicketBin&#39;);
+var Milestone = require(&#39;./Milestone&#39;);
+var Membership = require(&#39;./Membership&#39;);
+var Changeset = require(&#39;./Changeset&#39;);
+var Message = require(&#39;./Message&#39;);
+
+<span id='Project'>/**
+</span> * @class Project
+ * @extends Resource
+ * http://help.lighthouseapp.com/kb/api/projects
+ */
+
+<span id='Project-method-constructor'><span id='Project'>/**
+</span></span> * @constructor
+ * @param {Object} data
+ * @param {Client} client
+ * @param {string} url
+ */
+function Project(data, client, url) {
+    Resource.call(this, data, client, url);
+    this._wrapper = &#39;project&#39;;
+    if (!url &amp;&amp; this.id) {
+        this._url = &#39;projects/&#39; + this.id;
+    }
+}
+<span id='Project-property-archived'>/** @property {Boolean} archived */
+</span><span id='Project-property-closed_states'>/** @property {String} closed_states */
+</span><span id='Project-property-created_at'>/** @property {String} created_at */
+</span><span id='Project-property-default_assigned_user_id'>/** @property default_assigned_user_id */
+</span><span id='Project-property-default_milestone_id'>/** @property default_milestone_id */
+</span><span id='Project-property-default_ticket_text'>/** @property default_ticket_text */
+</span><span id='Project-property-description'>/** @property {String} description */
+</span><span id='Project-property-description_html'>/** @property {String} description_html */
+</span><span id='Project-property-enable_points'>/** @property {Boolean} enable_points */
+</span><span id='Project-property-hidden'>/** @property {Boolean} hidden */
+</span><span id='Project-property-id'>/** @property {Number} id */
+</span><span id='Project-property-license'>/** @property {String} license */
+</span><span id='Project-property-name'>/** @property {String} name */
+</span><span id='Project-property-open_states'>/** @property {String} open_states */
+</span><span id='Project-property-open_tickets_count'>/** @property {Number} open_tickets_count */
+</span><span id='Project-property-oss_readonly'>/** @property {Boolean} oss_readonly */
+</span><span id='Project-property-permalink'>/** @property {String} permalink */
+</span><span id='Project-property-points_scale'>/** @property points_scale */
+</span><span id='Project-property-public'>/** @property {Boolean} public */
+</span><span id='Project-property-send_changesets_to_events'>/** @property {Boolean} send_changesets_to_events */
+</span><span id='Project-property-todos_completed'>/** @property {Object} todos_completed */
+</span><span id='Project-property-updated_at'>/** @property {String} updated_at */
+</span><span id='Project-property-open_states_list'>/** @property {String} open_states_list */
+</span><span id='Project-property-closed_states_list'>/** @property {String} closed_states_list */
+</span>
+util.inherits(Project, Resource);
+_.extend(Project.prototype, /* @lends Project */ {
+<span id='Project-method-getTickets'>    /**
+</span>     * Retrieve a paged list of tickets.
+     * http://help.lighthouseapp.com/kb/api/tickets
+     *
+     * @param {Object} parameters
+     * {
+     *     q: &#39;state:open sort:importance&#39;, // http://help.lighthouseapp.com/kb/getting-started/how-do-i-search-for-tickets
+     *     limit: 30, // Number of tickets per page: Default: 30, Max: 100
+     *     page: 1, //
+     * }
+     * @return {Promise|Ticket[]} tickets
+     */
+    getTickets: function (parameters) {
+        return this._getCollection(&#39;tickets&#39;, Ticket);
+    },
+<span id='Project-method-getMemberships'>    /**
+</span>     * Retrieve a list of all memberships.
+     * http://help.lighthouseapp.com/kb/api/users-and-membership
+     * @return {Promise|Resource[]} memberships
+     */
+    getMemberships: function () {
+        return this._getCollection(&#39;memberships&#39;, Membership);
+    },
+<span id='Project-method-getTicketBins'>    /**
+</span>     * Retrieve a list of ticket bins.
+     * http://help.lighthouseapp.com/kb/api/ticket-bins
+     * @return {Promise|Resource[]} bins
+     */
+    getTicketBins: function () {
+        return this._getCollection(&#39;bins&#39;, TicketBin);
+    },
+<span id='Project-method-getMilestones'>    /**
+</span>     * Retrieve a list of milestones.
+     * http://help.lighthouseapp.com/kb/api/milestones
+     * @return {Promise|Milestone[]} milestones
+     */
+    getMilestones: function () {
+        return this._getCollection(&#39;milestones&#39;, Milestone);
+    },
+<span id='Project-method-getMessages'>    /**
+</span>     * Retrieve a list of messages.
+     * http://help.lighthouseapp.com/kb/api/messages
+     * @return {Promise|Message[]} messages
+     */
+    getMessages: function () {
+        return this._getCollection(&#39;messages&#39;, Message);
+    },
+<span id='Project-method-getChangesets'>    /**
+</span>     * Retrieve a list of changesets.
+     * http://help.lighthouseapp.com/kb/api/changesets
+     * @return {Promise|Changeset[]}changesets
+     */
+    getChangesets: function () {
+        return this._getCollection(&#39;changesets&#39;, Changeset);
+    },
+});
+module.exports = Project;</pre>
+</body>
+</html>

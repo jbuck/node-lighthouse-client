@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var util = require(&#39;util&#39;);
+var Resource = require(&#39;./Resource&#39;);
+
+<span id='Token'>/**
+</span> * @class Token
+ * @extends Resource
+ */
+
+<span id='Token-method-constructor'><span id='Token'>/**
+</span></span> * @constructor
+ * @param {Object} data
+ * @param {Client} client
+ * @param {string} url
+ */
+function Token(data, client, url) {
+    Resource.call(this, data, client, url);
+    this._wrapper = &#39;token&#39;;
+}
+<span id='Token-property-created_at'>/** @property {String} created_at */
+</span><span id='Token-property-note'>/** @property {String} note */
+</span><span id='Token-property-project_id'>/** @property project_id */
+</span><span id='Token-property-read_only'>/** @property {Boolean} read_only */
+</span><span id='Token-property-token'>/** @property {String} token */
+</span><span id='Token-property-user_id'>/** @property {Number} user_id */
+</span>
+util.inherits(Token, Resource);
+module.exports = Token;</pre>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&#39;use strict&#39;;
+var _ = require(&#39;lodash&#39;);
+var nodeUrl = require(&#39;url&#39;);
+var Curl = require(&quot;node-curl/lib/Curl&quot;);
+var Promise = require(&#39;bluebird&#39;).Promise;
+
+<span id='Client'>/**
+</span> * @class Client
+ * Low-level client for making requests to the lighthouseapp API.
+ */
+
+<span id='Client-method-constructor'><span id='Client'>/**
+</span></span> * @constructor
+ * @param {String} account
+ * @param {Object|String} [auth] For example:
+ *   &quot;my-token&quot;  http://help.lighthouseapp.com/kb/api/how-do-i-get-an-api-token
+ *   {token: &quot;my-token&quot;}
+ *   {username: &quot;my-username&quot;, password: &quot;my-password&quot;}
+ */
+function Client(account, auth) {
+    this.account = account;
+    if (typeof auth === &#39;string&#39;) {
+        this.token = auth;
+    } else {
+        auth = auth || {};
+        this.token = auth.token;
+        this.username = auth.username;
+        this.password = auth.password;
+    }
+}
+
+_.extend(Client.prototype, /* @lends Client */ {
+<span id='Client-method-get'>    /**
+</span>     * Perform a GET request.
+     *
+     * @param {String} path
+     * @param {Object|String} [parameters]
+     * @returns {Promise}
+     */
+    get: function (path, parameters) {
+        return this._api({
+            URL: this._url(path, parameters)
+        });
+    },
+<span id='Client-method-_api'>    /**
+</span>     * Perform request and cleanup response.
+     *
+     * @private
+     * @param {Object} options Curl options CURLOPT_*
+     * @returns {Promise}
+     */
+    _api: function (options) {
+        options.FAILONERROR = true;
+        if (this.token) { // Token based auth?
+            options.HTTPHEADER = options.HTTPHEADER || [];
+            options.HTTPHEADER.push(&#39;X-LighthouseToken: &#39; + this.token);
+        } else if (this.username) { // Basic auth?
+            options.USERPW = this.username + &#39;:&#39; + this.password;
+        }
+        return new Promise(function (resolve, reject) {
+            var curl = new Curl();
+            for (var prop in options) {
+                curl.setopt(prop, options[prop]);
+            }
+            var bodyText = &#39;&#39;;
+            curl.on(&#39;data&#39;, function (chunk) {
+                bodyText += chunk;
+                return bodyText.length;
+            });
+            curl.on(&#39;error&#39;, function (err) {
+                err.message = &#39;[&#39; + curl.getinfo(&#39;RESPONSE_CODE&#39;) + &#39;] &#39; + err.message;
+                curl.close();
+                reject(err);
+            });
+            curl.on(&#39;end&#39;, function () {
+                try {
+                    curl.close();
+                    var data = JSON.parse(bodyText);
+                    var wrapper = Object.keys(data)[0];
+                    data = data[wrapper]; // unwrap root container
+                    if (_.isArray(data) &amp;&amp; data.length &gt; 0) {
+                        var itemWrapper = Object.keys(data[0])[0];
+                        resolve(data.map(function (item) {
+                            return item[itemWrapper];
+                        }));
+                        return;
+                    }
+                    resolve(data);
+                } catch (err) {
+                    reject(err);
+                }
+            });
+            curl.perform();
+        });
+    },
+<span id='Client-method-_url'>    /**
+</span>     * Build url.
+     *
+     * @private
+     * @param {String} path
+     * @param {Object|String} parameters
+     * @returns {String}
+     */
+    _url: function (path, parameters) {
+        return nodeUrl.format({
+            protocol: &#39;https&#39;,
+            host: this.account + &#39;.lighthouseapp.com&#39;,
+            pathname: path + &#39;.json&#39;,
+            query: parameters
+        });
+    }
+});
+
+module.exports = Client;</pre>
+</body>
+</html>

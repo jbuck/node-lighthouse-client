@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&#39;use strict&#39;;
+var _ = require(&#39;lodash&#39;);
+var fs = require(&#39;fs&#39;);
+var nodePath = require(&#39;path&#39;);
+var Promise = require(&#39;bluebird&#39;).Promise;
+<span id='ClientMock'>/**
+</span> * @class ClientMock
+ * Similar api as the Client class, but responds with json files from a local directory.
+ */
+
+<span id='ClientMock-method-constructor'><span id='ClientMock'>/**
+</span></span> * @constructor
+ * @param {String} directory
+ */
+function ClientMock(directory) {
+    this._directory = directory;
+}
+_.extend(ClientMock.prototype, /* @lends ClientMock */ {
+
+<span id='ClientMock-method-get'>    /**
+</span>     * Simulate a GET request.
+     *
+     * @param {String} path
+     */
+    get: function (path) {
+        var fullpath = nodePath.join(this._directory, path + &#39;.json&#39;);
+        return (new Promise(function (resolve, reject) {
+            fs.readFile(fullpath, &#39;utf-8&#39;, function (err, file) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(file);
+                }
+            });
+        })).then(function (contents) {
+            return JSON.parse(contents);
+        });
+    }
+
+});
+module.exports = ClientMock;</pre>
+</body>
+</html>

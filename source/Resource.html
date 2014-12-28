@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var _ = require(&#39;lodash&#39;);
+var Promise = require(&#39;bluebird&#39;).Promise;
+
+<span id='Resource'>/**
+</span> * @class Resource
+ * Abstract baseclass for the resources.
+ */
+
+<span id='Resource-method-constructor'><span id='Resource'>/**
+</span></span> * @constructor
+ * @param {Object} data
+ * @param {Client} client
+ * @param {String} url
+ */
+function Resource(data, client, url) {
+    _.extend(this, data);
+    this._client = client;
+    this._url = url;
+}
+_.extend(Resource.prototype, /* @lends Resource */ {
+<span id='Resource-method-toJSON'>    /**
+</span>     * Called by JSON.stringify()
+     * Prepares the resource to be send to the API.
+     */
+    toJSON: function () {
+        var data = _.clone(this);
+        // Remove properties that start with &quot;_&quot;
+        _.keys(data).forEach(function (property) {
+            if (property[0] === &#39;_&#39;) {
+                delete data[property];
+            }
+        });
+        // Wrap the properties into the wrapper.
+        // Example: {id: 1} becomes {project: {id: 1}}
+        if (this._wrapper) {
+            var wrapped = {};
+            wrapped[this._wrapper] = data;
+            return wrapped;
+        }
+        return data;
+    },
+<span id='Resource-method-_getCollection'>    /**
+</span>     * @private
+     * @param {String} subpath
+     * @param {Resource} Model The model to wrap the data in.
+     */
+    _getCollection: function (subpath, Model, parameters) {
+        if (_.isUndefined(this._url)) {
+            return Promise.reject(&#39;_url must be known when loading related resources&#39;);
+        }
+        var url = this._url + &#39;/&#39; + subpath;
+        if (!Model) {
+            Model = Resource;
+        }
+        var client = this._client;
+        return client.get(url, parameters).then(function (items) {
+            return items.map(function (data) {
+                return new Model(data, client, url + &#39;/&#39; + (data.id || data.number));
+            });
+        });
+    },
+<span id='Resource-method-_getItem'>    /**
+</span>     * @private
+     * @param {String} subpath
+     * @param {Resource} Model The model to wrap the data in.
+     */
+    _getItem: function (subpath, Model) {
+        if (_.isUndefined(this._url)) {
+            return Promise.reject(&#39;_url must be known when loading a related resource&#39;);
+        }
+        var url = this._url + &#39;/&#39; + subpath;
+        if (!Model) {
+            Model = Resource;
+        }
+        var client = this._client;
+        return client.get(url).then(function (data) {
+            return new Model(data, client);
+        });
+    }
+});
+module.exports = Resource;</pre>
+</body>
+</html>

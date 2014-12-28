@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var util = require(&#39;util&#39;);
+var Resource = require(&#39;./Resource&#39;);
+
+<span id='Ticket'>/**
+</span> * @class Ticket
+ * @extends Resource
+ */
+
+<span id='Ticket-method-constructor'><span id='Ticket'>/**
+</span></span> * @constructor
+ * @param {Object} data
+ * @param {Client} client
+ * @param {string} url
+ */
+function Ticket(data, client, url) {
+    Resource.call(this, data, client, url);
+    this._wrapper = &#39;ticket&#39;;
+}
+<span id='Ticket-property-assigned_user_id'>/** @property assigned_user_id */
+</span><span id='Ticket-property-attachments_count'>/** @property {Number} attachments_count */
+</span><span id='Ticket-property-closed'>/** @property {Boolean} closed */
+</span><span id='Ticket-property-created_at'>/** @property {String} created_at */
+</span><span id='Ticket-property-creator_id'>/** @property {Number} creator_id */
+</span><span id='Ticket-property-importance'>/** @property {Number} importance */
+</span><span id='Ticket-property-milestone_due_on'>/** @property milestone_due_on */
+</span><span id='Ticket-property-milestone_id'>/** @property milestone_id */
+</span><span id='Ticket-property-milestone_order'>/** @property {Number} milestone_order */
+</span><span id='Ticket-property-number'>/** @property {Number} number */
+</span><span id='Ticket-property-permalink'>/** @property {String} permalink */
+</span><span id='Ticket-property-project_id'>/** @property {Number} project_id */
+</span><span id='Ticket-property-raw_data'>/** @property raw_data */
+</span><span id='Ticket-property-spam'>/** @property {Boolean} spam */
+</span><span id='Ticket-property-state'>/** @property {String} state */
+</span><span id='Ticket-property-tag'>/** @property tag */
+</span><span id='Ticket-property-title'>/** @property {String} title */
+</span><span id='Ticket-property-updated_at'>/** @property {String} updated_at */
+</span><span id='Ticket-property-user_id'>/** @property {Number} user_id */
+</span><span id='Ticket-property-version'>/** @property {Number} version */
+</span><span id='Ticket-property-watchers_ids'>/** @property {Array} watchers_ids */
+</span><span id='Ticket-property-user_name'>/** @property {String} user_name */
+</span><span id='Ticket-property-creator_name'>/** @property {String} creator_name */
+</span><span id='Ticket-property-url'>/** @property {String} url */
+</span><span id='Ticket-property-priority'>/** @property {Number} priority */
+</span><span id='Ticket-property-original_body'>/** @property {String} original_body */
+</span><span id='Ticket-property-latest_body'>/** @property {String} latest_body */
+</span><span id='Ticket-property-original_body_html'>/** @property {String} original_body_html */
+</span><span id='Ticket-property-state_color'>/** @property {String} state_color */
+</span>
+util.inherits(Ticket, Resource);
+module.exports = Ticket;</pre>
+</body>
+</html>

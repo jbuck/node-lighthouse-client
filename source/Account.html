@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var _ = require(&#39;lodash&#39;);
+var util = require(&#39;util&#39;);
+var Client = require(&#39;./Client&#39;);
+var Resource = require(&#39;./Resource&#39;);
+var Project = require(&#39;./Project&#39;);
+var User = require(&#39;./User&#39;);
+
+<span id='Account'>/**
+</span> * @class Account
+ * @extends Resource
+ * Object oriënted interface for working with the lighthouseapp API.
+ */
+
+<span id='Account-method-constructor'><span id='Account'>/**
+</span></span> * @constructor
+ * @param {Client|ClientMock|String} clientOrAccount A Client object or account string
+ * @param {Object|String} [auth] Authentication for when clientOrAccount is an acount/string
+ *   &quot;my-token&quot;  http://help.lighthouseapp.com/kb/api/how-do-i-get-an-api-token
+ *   {token: &quot;my-token&quot;}
+ *   {username: &quot;my-username&quot;, password: &quot;my-p@ssw0rd&quot;}
+ */
+function Account(clientOrAccount, auth) {
+    if (_.isObject(clientOrAccount)) {
+        this._client = clientOrAccount;
+    } else if (_.isString(clientOrAccount)) {
+        this._client = new Client(clientOrAccount, auth);
+    } else {
+        throw new Error(&#39;Missing required argument: clientOrAccount&#39;);
+    }
+    this._url = &#39;&#39;;
+}
+util.inherits(Account, Resource);
+_.extend(Account.prototype, /* @lends Account */ {
+<span id='Account-method-getProjects'>    /**
+</span>     * Retrieve a list of all projects.
+     *
+     * @return {Promise|Project[]} projects
+     */
+    getProjects: function () {
+        return this._getCollection(&#39;projects&#39;, Project);
+    },
+<span id='Account-method-allProjects'>    /**
+</span>     * @private
+     * Alias of getProjects()
+     */
+    allProjects: function () {
+        return this.getProjects.apply(this, arguments);
+    },
+<span id='Account-method-getProject'>    /**
+</span>     * Retrieve a project by id.
+     *
+     * @param {Number} id
+     * @return {Promise|Project} project
+     */
+    getProject: function (id) {
+        return this._getItem(&#39;projects/&#39; + id, Project);
+    },
+<span id='Account-method-getProfile'>    /**
+</span>     * Retrieve the current user.
+     *
+     * @return {Promise|User}
+     */
+    getProfile: function () {
+        return this._getItem(&#39;profile&#39;, User);
+    },
+<span id='Account-method-getToken'>    /**
+</span>     * Retrieve details on the given token.
+     *
+     * @param {String} token
+     * @return {Promise|Resource} token
+     */
+    getToken: function (token) {
+        return this._getItem(&#39;tokens/&#39; + token);
+    }
+
+});
+module.exports = Account;</pre>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js">&quot;use strict&quot;;
+var util = require(&#39;util&#39;);
+var Resource = require(&#39;./Resource&#39;);
+var Ticket = require(&#39;./Ticket&#39;);
+
+<span id='User'>/**
+</span> * @class User
+ * @extends Resource
+ * A public representation of the user with name, job, and website attributes.
+ *
+ * http://help.lighthouseapp.com/kb/api/users-and-membership
+ */
+
+<span id='User-method-constructor'><span id='User'>/**
+</span></span> * @constructor
+ * @param {Object} data
+ * @param {Client} client
+ * @param {string} url
+ */
+function User(data, client, url) {
+    Resource.call(this, data, client, url);
+    this._wrapper = &#39;user&#39;;
+    if (this.active_tickets &amp;&amp; this.active_tickets.length) {
+        this.active_tickets = this.active_tickets.map(function (item) {
+            return new Ticket(item, client);
+        });
+    }
+    if (!this._url &amp;&amp; this.id) {
+        this._url = &#39;users/&#39; + this.id;
+    }
+}
+<span id='User-property-id'>/** @property {Number} id */
+</span><span id='User-property-job'>/** @property {String} job */
+</span><span id='User-property-name'>/** @property {String} name */
+</span><span id='User-property-website'>/** @property {String} website */
+</span><span id='User-property-avatar_url'>/** @property {String} avatar_url */
+</span><span id='User-property-active_tickets'>/** @property {Ticket[]} active_tickets */
+</span>
+util.inherits(User, Resource);
+module.exports = User;</pre>
+</body>
+</html>
