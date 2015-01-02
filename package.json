@@ -1,18 +1,17 @@
 {
   "name": "lighthouse-client",
-  "version": "0.0.1",
+  "version": "0.4.0",
   "description": "A NodeJS client for Lighthouse http://lighthouseapp.com ",
-  "main": "index.js",
   "dependencies": {
-    "node.extend": "~1.0.0",
-    "request": "~2.12.0"
+    "bluebird": "^2.4.2",
+    "lodash": "^2.4.1",
+    "node-curl": "^0.3.3"
   },
   "devDependencies": {
-    "nock": "~0.14.0",
-    "specify": "~1.1.2"
+    "mocha": "^2.0.1"
   },
   "scripts": {
-    "test": "node test/*.test.js"
+    "test": "node_modules/.bin/mocha --timeout 5000"
   },
   "repository": {
     "type": "git",
@@ -22,6 +21,9 @@
     "lighthouse",
     "lighthouseapp"
   ],
-  "author": "Jon Buckley <jon@jbuckley.ca>",
+  "authors": [
+    "Jon Buckley <jon@jbuckley.ca>",
+    "Bob Fanger <bfanger@gmail.com>"
+  ],
   "license": "BSD"
 }
