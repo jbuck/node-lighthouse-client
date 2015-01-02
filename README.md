@@ -11,8 +11,7 @@ Install using npm: `npm install lighthouse-client`
 
     var lighthouse = require("lighthouse-client");
 
-    // https://myaccount.lighthouseapp.com
-
+    // For connecting to 'https://myaccount.lighthouseapp.com'
     var account = lighthouse("myaccount", "my-token"); // http://help.lighthouseapp.com/kb/api/how-do-i-get-an-api-token
     // or
     var account = lighthouse("myaccount", {username: "me", "my-p@ssword"});
@@ -21,14 +20,15 @@ Install using npm: `npm install lighthouse-client`
         console.log(profile.active_tickets);
     });
     account.getProjects().then(function(projects) {
-      projects.forEach(function(project) {
+        projects.forEach(function(project) {
             project.getTickets().then(function (tickets) {
                 console.log(project.name);
                 console.log(tickets);
             });
-      });
+        });
     });
 
+See the [API Documentation](http://jbuck.github.io/node-lighthouse-client/) for more info.
 
 ## Usage (low level api)
 
@@ -38,7 +38,7 @@ Install using npm: `npm install lighthouse-client`
     // To fetch & parse: https://myaccount.lighthouseapp.com/projects/123/tickets.json
     lighthouseClient.get('projects/123/tickets', {q: 'responsible:me'}).then(function(tickets) {
         tickets.forEach(function(ticket) {
-           console.log(ticket.number, ticket.state);
+            console.log(ticket.number, ticket.state);
         });
     });
 
