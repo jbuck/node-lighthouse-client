@@ -71,6 +71,16 @@ _.extend(Project.prototype, /* @lends Project */ {
         return this._getCollection('tickets', Ticket);
     },
     /**
+     * Retieve a ticket by number.
+     * http://help.lighthouseapp.com/kb/api/tickets
+     *
+     * @param {Number} number
+     * @return {Promise|Ticket} ticket
+     */
+    getTicket: function (number) {
+        return this._getItem('tickets/' + number, Ticket);
+    },
+    /**
      * Retrieve a list of all memberships.
      * http://help.lighthouseapp.com/kb/api/users-and-membership
      * @return {Promise|Resource[]} memberships
@@ -81,10 +91,19 @@ _.extend(Project.prototype, /* @lends Project */ {
     /**
      * Retrieve a list of ticket bins.
      * http://help.lighthouseapp.com/kb/api/ticket-bins
-     * @return {Promise|Resource[]} bins
+     * @return {Promise|TicketBin[]} bins
      */
     getTicketBins: function () {
         return this._getCollection('bins', TicketBin);
+    },
+    /**
+     * Retrieve a ticket bin by id.
+     * http://help.lighthouseapp.com/kb/api/ticket-bins
+     * @param {Number} id
+     * @return {Promise|TicketBin} bins
+     */
+    getTicketBin: function (id) {
+        return this._getItem('bins/' + id , TicketBin);
     },
     /**
      * Retrieve a list of milestones.

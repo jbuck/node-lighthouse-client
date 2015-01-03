@@ -3,6 +3,7 @@ var assert = require('assert');
 var account = require('./helpers/account');
 var Project = require('../src/Project');
 var User = require('../src/User');
+var Ticket = require('../src/Ticket');
 
 describe('Account', function () {
 
@@ -28,6 +29,7 @@ describe('Account', function () {
             assert(profile instanceof User);
             assert.equal(profile.name, 'Jon Buckley');
             assert.equal(profile.website, 'jbuckley.ca');
+            assert.ok(profile.active_tickets[0] instanceof Ticket);
             done();
         }).catch(done);
     });

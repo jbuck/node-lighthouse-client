@@ -1,0 +1,13 @@
+{
+    "default": null,
+    "id": 556415,
+    "name": "Open tickets",
+    "position": 1,
+    "project_id": 102935,
+    "query": "state:open",
+    "shared": true,
+    "tickets_count": 2,
+    "updated_at": "2013-01-23T21:25:40Z",
+    "user_id": 133445,
+    "global": false
+}

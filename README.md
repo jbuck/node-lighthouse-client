@@ -14,7 +14,7 @@ Install using npm: `npm install lighthouse-client`
     // For connecting to 'https://myaccount.lighthouseapp.com'
     var account = lighthouse("myaccount", "my-token"); // http://help.lighthouseapp.com/kb/api/how-do-i-get-an-api-token
     // or
-    var account = lighthouse("myaccount", {username: "me", "my-p@ssword"});
+    var account = lighthouse("myaccount", {username: "me", password: "my-p@ssword"});
 
     account.getProfile().then(function (profile) {
         console.log(profile.active_tickets);

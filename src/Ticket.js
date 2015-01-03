@@ -16,6 +16,9 @@ var Resource = require('./Resource');
 function Ticket(data, client, url) {
     Resource.call(this, data, client, url);
     this._wrapper = 'ticket';
+    if (this.project_id && this.number) {
+        this._url = 'projects/' + this.project_id + '/tickets/' + this.number;
+    }
 }
 /** @property assigned_user_id */
 /** @property {Number} attachments_count */
