@@ -73,6 +73,6 @@ _.extend(Account.prototype, /* @lends Account */ {
     getToken: function (token) {
         return this._getItem('tokens/' + token);
     }
-
 });
+
 module.exports = Account;

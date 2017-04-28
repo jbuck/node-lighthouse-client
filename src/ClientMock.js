@@ -1,8 +1,7 @@
-'use strict';
+"use strict";
 var _ = require('lodash');
 var fs = require('fs');
 var nodePath = require('path');
-var Promise = require('bluebird').Promise;
 /**
  * @class ClientMock
  * Similar api as the Client class, but responds with json files from a local directory.

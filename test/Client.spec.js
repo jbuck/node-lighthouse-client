@@ -1,5 +1,4 @@
 "use strict";
-var assert = require("assert");
 var Client = require("../src/Client");
 
 describe('Client', function () {
@@ -14,30 +13,25 @@ describe('Client', function () {
     var membersPromise = authenticated.get('projects/102935/memberships');
     var publicProjectPromise = anonymous.get('projects/102935');
 
-    it('should list projects when authenticated', function (done) {
-        allProjectsPromise.then(function (projects) {
-            assert.equal(projects[0].id, 102935);
-            done();
-        }).catch(done);
+    it('should list projects when authenticated', function () {
+        return allProjectsPromise.then(function (projects) {
+            expect(projects[0].id).toBe(102935);
+        });
     });
 
-    it('should list members of a project', function (done) {
-
-        membersPromise.then(function (members) {
-            assert.equal(members[0].id, 260860);
-            assert.equal(members[0].user.id, 133445);
-            assert.equal(members[0].user.name, 'Jon Buckley');
-            done();
-        }).catch(done);
+    it('should list members of a project', function () {
+        return membersPromise.then(function (members) {
+            expect(members[0].id).toBe(260860);
+            expect(members[0].user.id).toBe(133445);
+            expect(members[0].user.name).toBe('Jon Buckley');
+        });
     });
 
-    it('should retrieve a pubic project without authentication', function (done) {
-
-        publicProjectPromise.then(function (project) {
-            assert.equal(project.id, 102935);
-            assert.equal(project.description, 'A project for testing node-lighthouse-client.');
-            done();
-        }).catch(done);
+    it('should retrieve a pubic project without authentication', function () {
+        return publicProjectPromise.then(function (project) {
+            expect(project.id).toBe(102935);
+            expect(project.description).toBe('A project for testing node-lighthouse-client.');
+        });
     });
 
 });

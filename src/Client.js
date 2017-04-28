@@ -1,8 +1,7 @@
-'use strict';
+"use strict";
 var _ = require('lodash');
 var nodeUrl = require('url');
-var Curl = require("node-curl/lib/Curl");
-var Promise = require('bluebird').Promise;
+var axios = require('axios');
 
 /**
  * @class Client
@@ -39,60 +38,41 @@ _.extend(Client.prototype, /* @lends Client */ {
      */
     get: function (path, parameters) {
         return this._api({
-            URL: this._url(path, parameters)
+            url: this._url(path, parameters)
         });
     },
+
     /**
      * Perform request and cleanup response.
      *
      * @private
-     * @param {Object} options Curl options CURLOPT_*
+     * @param {Object} options axiosConfig
      * @returns {Promise}
      */
     _api: function (options) {
-        options.FAILONERROR = true;
         if (this.token) { // Token based auth?
-            options.HTTPHEADER = options.HTTPHEADER || [];
-            options.HTTPHEADER.push('X-LighthouseToken: ' + this.token);
-        } else if (this.username) { // Basic auth?
-            options.USERPW = this.username + ':' + this.password;
+            options.headers = options.headers || {};
+            options.headers['X-LighthouseToken'] = this.token;
+        } else if (this.username) {
+            options.auth = {
+                username: this.username,
+                password: this.password
+            };
         }
-        return new Promise(function (resolve, reject) {
-            var curl = new Curl();
-            for (var prop in options) {
-                curl.setopt(prop, options[prop]);
+        return axios(options).then(function (response) {
+            var data = response.data;
+            var wrapper = Object.keys(response.data)[0];
+            var data = data[wrapper]; // unwrap root container
+            if (Array.isArray(data) && data.length > 0) {
+                var itemWrapper = Object.keys(data[0])[0];
+                return data.map(function (item) {
+                    return item[itemWrapper];
+                });
             }
-            var bodyText = '';
-            curl.on('data', function (chunk) {
-                bodyText += chunk;
-                return bodyText.length;
-            });
-            curl.on('error', function (err) {
-                err.message = '[' + curl.getinfo('RESPONSE_CODE') + '] ' + err.message;
-                curl.close();
-                reject(err);
-            });
-            curl.on('end', function () {
-                try {
-                    curl.close();
-                    var data = JSON.parse(bodyText);
-                    var wrapper = Object.keys(data)[0];
-                    data = data[wrapper]; // unwrap root container
-                    if (_.isArray(data) && data.length > 0) {
-                        var itemWrapper = Object.keys(data[0])[0];
-                        resolve(data.map(function (item) {
-                            return item[itemWrapper];
-                        }));
-                        return;
-                    }
-                    resolve(data);
-                } catch (err) {
-                    reject(err);
-                }
-            });
-            curl.perform();
+            return data;
         });
     },
+
     /**
      * Build url.
      *

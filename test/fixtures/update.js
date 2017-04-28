@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Update the fixtures based on the http://node-lighthouse-client.lighthouseapp.com account.
  */

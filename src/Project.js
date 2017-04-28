@@ -68,7 +68,7 @@ _.extend(Project.prototype, /* @lends Project */ {
      * @return {Promise|Ticket[]} tickets
      */
     getTickets: function (parameters) {
-        return this._getCollection('tickets', Ticket);
+        return this._getCollection('tickets', Ticket, parameters);
     },
     /**
      * Retieve a ticket by number.
@@ -103,7 +103,7 @@ _.extend(Project.prototype, /* @lends Project */ {
      * @return {Promise|TicketBin} bins
      */
     getTicketBin: function (id) {
-        return this._getItem('bins/' + id , TicketBin);
+        return this._getItem('bins/' + id, TicketBin);
     },
     /**
      * Retrieve a list of milestones.

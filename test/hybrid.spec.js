@@ -1,29 +1,26 @@
 "use strict";
 var lighthouse = require('../index');
-var assert = require("assert");
 var ClientMock = require('../src/ClientMock');
 
 describe('lighthouse-client module export / hybrid client', function () {
 
-    var client = lighthouse(new ClientMock(__dirname + '/fixtures'));
-    // var client = lighthouse('node-lighthouse-client', '5836fe149e475c7d8849d4315aef720d7523590c');
+    if (typeof process.env.MOCK === 'undefined' || process.env.MOCK !== '0') {
+        var client = lighthouse(new ClientMock(__dirname + '/fixtures'));
+    } else {
+        var client = lighthouse('node-lighthouse-client', '5836fe149e475c7d8849d4315aef720d7523590c');
+    }
 
-
-    it('lighthouse() should expose the high-level api', function (done) {
+    it('lighthouse() should expose the high-level api', function () {
         // The high-level api example in the read me.
-
-        client.getProfile().then(function (profile) {
-            assert.equal(profile.name, "Jon Buckley");
-            done();
-        }).catch(done);
+        return client.getProfile().then(function (profile) {
+            expect(profile.name).toBe("Jon Buckley");
+        });
     });
 
-    it('lighthouse() should also expose the low-level api', function (done) {
-
-        client.get('users/133445').then(function (user) {
-            assert.equal(user.name, "Jon Buckley");
-            done();
-        }).catch(done);
+    it('lighthouse() should also expose the low-level api', function () {
+        return client.get('users/133445').then(function (user) {
+            expect(user.name).toBe("Jon Buckley");
+        });
     });
 
 });
